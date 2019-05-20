@@ -1,0 +1,65 @@
+body {
+	padding: 10px;
+	font-family: sans-serif;
+}
+#chart {
+	float: left;
+	height: 50%;
+	width: 50%;
+}
+#trainer{
+	float: right;
+	height: 50%;
+	width: 50%;
+	position: relative;
+}
+#palm {
+	margin-left: 25%;
+	width: 50%;
+}
+#redCirclePinkie {
+	height: 35px;
+	position: absolute;
+	margin-left: 220px;
+	margin-top: 55px;
+}
+#redCircleRingFinger {
+	height: 35px;
+	position: absolute;
+	margin-left: 250px;
+	margin-top: 5px;
+}
+#redCircleMiddleFinger {
+	height: 35px;
+	position: absolute;
+	margin-left: 285px;
+	margin-top: -5px;
+}
+#redCircleForefinger {
+	height: 35px;
+	position: absolute;
+	margin-left: 320px;
+	margin-top: 5px;
+}
+#redCircleThumb {
+	height: 35px;
+	position: absolute;
+	margin-left: 365px;
+	margin-top: 135px;
+}
+.button {
+	background-color: #4CAF50; /* Green */
+	border-color: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+}
+#timer {
+	position: absolute;
+	border: 1px solid red;
+	font-size: 42px;
+	margin-left: 240px;
+}

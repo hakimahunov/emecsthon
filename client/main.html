@@ -1,0 +1,34 @@
+<head>
+	<title>emecsthon</title>
+</head>
+
+<body>
+	<h1>Simulator for post-traumatic rehabilitation of the hand</h1>
+	{{> chart}}
+	{{> trainer}}
+	{{> control}}
+</body>
+
+<template name="chart">
+	<div id="chart">{{createChart}}</div>
+	<div id="chartX">{{createChartX}}</div>
+</template>
+
+<template name="trainer">
+	<div id="trainer">
+		<img id="redCirclePinkie" hidden=true src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleRingFinger" src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleMiddleFinger" hidden=true src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleForefinger" src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleThumb" src="images/red_circle.png" alt="Red circle">
+		<img id="palm" src="images/palm.jpg" alt="Right palm">
+	</div>
+</template>
+
+<template name="control">
+	<div id="control">
+		<button class="button">Start</button>
+		<button class="button">Pause</button>
+		<span id="timer">Timer: 36 sec</span>
+	</div>
+</template>
