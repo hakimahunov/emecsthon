@@ -23,34 +23,34 @@ body {
 	width: 50%;
 }
 #redCirclePinkie {
-	height: 35px;
+	height: 28px;
 	position: absolute;
-	margin-left: 220px;
+	margin-left: 180px;
 	margin-top: 55px;
 }
 #redCircleRingFinger {
-	height: 35px;
+	height: 28px;
 	position: absolute;
-	margin-left: 250px;
+	margin-left: 200px;
 	margin-top: 5px;
 }
 #redCircleMiddleFinger {
-	height: 35px;
+	height: 28px;
 	position: absolute;
-	margin-left: 285px;
+	margin-left: 228px;
 	margin-top: -5px;
 }
 #redCircleForefinger {
-	height: 35px;
+	height: 28px;
 	position: absolute;
-	margin-left: 320px;
+	margin-left: 254px;
 	margin-top: 5px;
 }
 #redCircleThumb {
-	height: 35px;
+	height: 28px;
 	position: absolute;
-	margin-left: 365px;
-	margin-top: 135px;
+	margin-left: 290px;
+	margin-top: 115px;
 }
 .button {
 	background-color: #4CAF50; /* Green */
@@ -61,6 +61,7 @@ body {
 	text-decoration: none;
 	display: inline-block;
 	font-size: 16px;
+	float: left;
 }
 .timer {
 	position: relative;

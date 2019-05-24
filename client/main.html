@@ -16,13 +16,14 @@
 
 <template name="trainer">
 	<div id="trainer">
-		<img id="redCirclePinkie" hidden=true src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleRingFinger" src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleMiddleFinger" hidden=true src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleForefinger" src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleThumb" src="images/red_circle.png" alt="Red circle">
+		<img id="redCirclePinkie" hidden src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleRingFinger" hidden src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleMiddleFinger" hidden src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleForefinger" hidden src="images/red_circle.png" alt="Red circle">
+		<img id="redCircleThumb" hidden src="images/red_circle.png" alt="Red circle">
 		<img id="palm" src="images/palm.jpg" alt="Right palm">
-		
+		<button class="button" id="btnStart">Start</button>
+		<span class="timer" id="counter"></span>
 	</div>
 </template>
 
@@ -43,8 +44,7 @@
 
 <template name="control">
 	<div id="control">
-		<button class="button">Start</button>
-		<button class="button">Pause</button>
+		
 		<table>
 			<tr>
 				<th>X</th>

@@ -6,7 +6,7 @@ Meteor.startup(() => {
 	
 	const SerialPort = require('serialport');
 	const Readline = require('@serialport/parser-readline')
-	const port = new SerialPort('COM6', {
+	const port = new SerialPort('COM3', {
 		baudRate: 9600
 	});
 	const parser = new Readline()
