@@ -5,13 +5,18 @@ body {
 #chart {
 	float: left;
 	height: 50%;
-	width: 50%;
+	width: 40%;
 }
 #trainer{
 	float: right;
 	height: 50%;
-	width: 50%;
+	width: 40%;
 	position: relative;
+}
+#todo{
+	float: right;
+	height: 50%;
+	width: 20%;
 }
 #palm {
 	margin-left: 25%;
@@ -57,9 +62,13 @@ body {
 	display: inline-block;
 	font-size: 16px;
 }
-#timer {
-	position: absolute;
+.timer {
+	position: relative;
 	border: 1px solid red;
 	font-size: 42px;
-	margin-left: 240px;
+	/*margin-left: 240px;*/
+}
+table {
+	table-layout: fixed;
+	width: 150px;
 }

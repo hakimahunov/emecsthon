@@ -5,13 +5,13 @@
 <body>
 	<h1>Simulator for post-traumatic rehabilitation of the hand</h1>
 	{{> chart}}
+	{{> todo}}
 	{{> trainer}}
 	{{> control}}
 </body>
 
 <template name="chart">
 	<div id="chart">{{createChart}}</div>
-	<div id="chartX">{{createChartX}}</div>
 </template>
 
 <template name="trainer">
@@ -22,6 +22,22 @@
 		<img id="redCircleForefinger" src="images/red_circle.png" alt="Red circle">
 		<img id="redCircleThumb" src="images/red_circle.png" alt="Red circle">
 		<img id="palm" src="images/palm.jpg" alt="Right palm">
+		
+	</div>
+</template>
+
+<template name="todo">
+	<div id="todo">
+		
+			<input type="radio" name="gender" value="task_1"> Task 1<br>
+			<input type="radio" name="gender" value="task_2"> Task 2<br>
+			<input type="radio" name="gender" value="task_3"> Task 3<br>
+		
+		<ul>
+			<li>Choose the task</li>
+			<li>Put your hand to the initial position</li>
+			<li>Follow instractions</li>
+		</ul>
 	</div>
 </template>
 
@@ -29,6 +45,19 @@
 	<div id="control">
 		<button class="button">Start</button>
 		<button class="button">Pause</button>
-		<span id="timer">Timer: 36 sec</span>
+		<table>
+			<tr>
+				<th>X</th>
+				<th>Y</th> 
+				<th>Z</th>
+			</tr>
+			<tr>
+				{{#each el in get_count}}
+					<td>{{el}}</td>
+				{{/each}}
+			</tr>
+		</table>
+		
+		
 	</div>
 </template>

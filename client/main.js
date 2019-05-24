@@ -13,8 +13,8 @@ Template.chart.helpers({
 	createChart: function () {
 		//setTimeout(function(){
 			// Gather data: 
-			var allTasks = Tasks.find({}).count(),
-			incompleteTask = Tasks.find({completed: {$eq: false}}).count(),
+			var allTasks = 5,// (Tasks.find({idd:1}).fetch())[0].count,
+			incompleteTask = 3, //Tasks.find({completed: {$eq: false}}).count(),
 			tasksData = [{
 							y: incompleteTask,
 							name: "Incomplete"
@@ -26,13 +26,13 @@ Template.chart.helpers({
 			Meteor.defer(function() {
 				// Create standard Highcharts chart with options:
 				Highcharts.chart('chart', {
-					series: [{
+					series: [/*{
 						type: 'pie',
 						data: tasksData,
 						size: 150,
 						center: [150,30]
-					}, {
-						type: 'column',
+					},*/ {
+						type: 'line',
 						data: tasksData
 					}],
 					title: {
@@ -75,6 +75,10 @@ Template.chart.helpers({
 	}*/
 });
 
-Template.trainer.helpers({
-	
+Template.control.helpers({
+	get_count: function(){
+		var res = Tasks.find({idd: 1}).fetch();
+		return res[0].coords;
+		
+	}
 });

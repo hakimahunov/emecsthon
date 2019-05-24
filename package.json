@@ -9,7 +9,12 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.3.4",
+    "brain.js": "^1.6.1",
+    "brainjs": "^0.7.4",
+    "d3": "^5.9.2",
     "meteor-node-stubs": "^0.4.1",
+    "numjs": "^0.16.0",
+    "nvd3": "^1.8.6",
     "serialport": "^7.1.5",
     "sf": "^0.2.0"
   },
