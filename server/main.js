@@ -3,6 +3,11 @@ import {Tasks} from '../imports/api/collections.js';
 import {Train} from '../imports/api/collections.js';
 import {ChartData} from '../imports/api/collections.js';
 
+import brain from 'brain.js';
+var net = new brain.NeuralNetwork();
+sens_data = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+
+
 Meteor.startup(() => {
 	
     const SerialPort = require('serialport');
@@ -63,7 +68,7 @@ Meteor.startup(() => {
 
     const NR_SENSORS = 5;
 
-    sens_data = [[0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0], [0, 0, 0]];
+    
 
     function onConnect()
     {           
@@ -77,8 +82,7 @@ Meteor.startup(() => {
         connect_timer = setInterval(reconnect, 100);
     }
 
-	import brain from 'brain.js';
-	 var net = new brain.NeuralNetwork();
+	
 	
 	 arr1 = Train.find({className: "palm"},{limit:30}).fetch();
 	 arr2 = Train.find({className: "fist"},{limit:30}).fetch();
@@ -132,13 +136,13 @@ Meteor.startup(() => {
             sens_data[sens][2] = z/16384.0;
 		}
 		
-		tmpArr2 = []
-		for (var k = 0; k < sens_data.length; k++) {
-			tmpArr2 = tmpArr2.concat(sens_data[k]);
-		}
+		//tmpArr2 = []
+		//for (var k = 0; k < sens_data.length; k++) {
+		//	tmpArr2 = tmpArr2.concat(sens_data[k]);
+		//}
 	 	
-		const output = net.run(tmpArr2);
-		console.log(output);
+		//const output = net.run(tmpArr2);
+		//console.log(output);
 		//ChartData.insert({time: Date.now(), sens_data: sens_data});
 		
 		
@@ -162,5 +166,21 @@ Meteor.methods({
 		var rec = ChartData.find({}).fetch();
 		rec = rec[rec.length-1];
 		Train.insert({className: className, sens_data: rec.sens_data });
-	} 
+	},
+	checkPosition(taskType){
+		tmpArr2 = []
+		for (var k = 0; k < sens_data.length; k++) {
+			tmpArr2 = tmpArr2.concat(sens_data[k]);
+		}
+	 	
+		const output = net.run(tmpArr2);
+		if (taskType == 2) {
+			if (output.fist > 0.80) {
+				return "fist"
+			} else {
+				return "palm"
+			}
+		}
+		//console.log(output);
+	}
 });

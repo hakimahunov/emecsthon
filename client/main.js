@@ -102,39 +102,85 @@ Template.trainer.events({
 		}
 		
 		var task = (Tasks.find({patient:1, type: parseInt(Session.get("TaskType")), completed: false}).fetch())[0];
-		var countDown = task.time;
-		var fingers = task.fingers;
 		
-		for (var i = 0; i < fingers.length; i++) {
-			switch (fingers[i]){
-				case 1: template.$("#redCirclePinkie").show();
-				break;
-				case 2: template.$("#redCircleRingFinger").show();
-				break;
-				case 3: template.$("#redCircleMiddleFinger").show();
-				break;
-				case 4: template.$("#redCircleForefinger").show();
-				break;
-				case 5: template.$("#redCircleThumb").show();
-				break;
-				default:
-				break;
-			}
-		}
-
-		// Update the count down every 1 second
-		var x = setInterval(function() {
+		if (task.type == 2) {
+			var curState = "palm";
+			var ticks = 0;
+			Session.set("position","palm");
+			var t = setInterval(function(){
+				Meteor.call("checkPosition", 2, function(error,res){
+					if (error) {
+						console.log(error);
+					} else {
+						Session.set("position",res);
+					}
+				});
+				setTimeout(function(){
+					console.log(Session.get("position"));
+					if (curState != Session.get("position")) {
+						this.document.getElementById("result").innerHTML = ++ticks;
+						curState = Session.get("position");
+					}
+					this.document.getElementById("palm").src = "images/" + Session.get("position") + ".png";
+				},50);
+			},200);
+			 var countDown = task.time;
+			 var y = setInterval(function(){
+				 this.document.getElementById("counter").innerHTML = countDown;
+				countDown--;
+				if (countDown < 0) {
+					target.disabled = false;
+					clearInterval(t);
+					clearInterval(y);
+				}
+			 },1000);
+		} else {
+			var countDown = task.time;
+			var fingers = task.fingers;
 			
-			// Get today's date and time
-			this.document.getElementById("counter").innerHTML = countDown;
-			countDown--;
-			  if (countDown < 0) {
-				target.disabled = false;
-				this.document.getElementById("redCirclePinkie").src = 'images/green_circle1.png';
+			for (var i = 0; i < fingers.length; i++) {
+				switch (fingers[i]){
+					case 1: template.$("#redCirclePinkie").show();
+					break;
+					case 2: template.$("#redCircleRingFinger").show();
+					break;
+					case 3: template.$("#redCircleMiddleFinger").show();
+					break;
+					case 4: template.$("#redCircleForefinger").show();
+					break;
+					case 5: template.$("#redCircleThumb").show();
+					break;
+					default:
+					break;
+				}
+			}
+
+			// Update the count down every 1 second
+			var x = setInterval(function() {
 				
-				clearInterval(x);
-			  }
-		}, 1000);
+				// Get today's date and time
+				this.document.getElementById("counter").innerHTML = countDown;
+				countDown--;
+				  if (countDown < 0) {
+					target.disabled = false;
+					this.document.getElementById("redCirclePinkie").src = 'images/green_circle1.png';
+					Meteor.call("checkPosition", Session.get("TaskType"), function(error,res){
+						if (error) {
+							console.log(error);
+						} else {
+							Session.set("result", res);
+						}
+					})
+					setTimeout(function(){
+					  this.document.getElementById("result").innerHTML = Session.get("result")
+					  },500);
+					clearInterval(x);
+				  }
+			}, 1000);
+		}
+		
+		
+		
 		
 	}
 });
