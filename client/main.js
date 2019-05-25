@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import {Tasks} from '../imports/api/collections.js';
-
+import { Session } from 'meteor/session' 
 
 import './main.html';
 
@@ -85,9 +85,14 @@ Template.control.helpers({
 Template.trainer.events({
 	'click #btnStart'(event, template) {
 		const target = event.target;
-		//target.disabled = true;
+		target.disabled = true;
+		var circElms = template.$(".circle");
+		for (var i = 0; i < circElms.length; i++) {
+			circElms[i].style.display = "none";
+			circElms[i].src = 'images/red_circle.png';
+		}
 		
-		var task = (Tasks.find({patient:1}).fetch())[0];
+		var task = (Tasks.find({patient:1, type: parseInt(Session.get("TaskType")), completed: false}).fetch())[0];
 		var countDown = task.time;
 		var fingers = task.fingers;
 		
@@ -121,6 +126,18 @@ Template.trainer.events({
 				clearInterval(x);
 			  }
 		}, 1000);
+		
+	}
+});
+
+Template.todo.events({
+	'click .taskChoose' (event, template) {
+		const target = event.target;
+		console.log(target.value);
+		var task = Tasks.find({patient: 1, type: parseInt(target.value)}).fetch();
+		console.log(template.$("#descr"));
+		template.$("#descr").text(task[0].description);
+		Session.set("TaskType", target.value);
 		
 	}
 });

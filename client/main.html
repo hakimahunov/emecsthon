@@ -7,7 +7,7 @@
 	{{> chart}}
 	{{> todo}}
 	{{> trainer}}
-	{{> control}}
+	<!--{{> control}}-->
 </body>
 
 <template name="chart">
@@ -16,11 +16,11 @@
 
 <template name="trainer">
 	<div id="trainer">
-		<img id="redCirclePinkie" hidden src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleRingFinger" hidden src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleMiddleFinger" hidden src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleForefinger" hidden src="images/red_circle.png" alt="Red circle">
-		<img id="redCircleThumb" hidden src="images/red_circle.png" alt="Red circle">
+		<img class="circle" id="redCirclePinkie" hidden src="images/red_circle.png" alt="Red circle">
+		<img class="circle" id="redCircleRingFinger" hidden src="images/red_circle.png" alt="Red circle">
+		<img class="circle" id="redCircleMiddleFinger" hidden src="images/red_circle.png" alt="Red circle">
+		<img class="circle" id="redCircleForefinger" hidden src="images/red_circle.png" alt="Red circle">
+		<img class="circle" id="redCircleThumb" hidden src="images/red_circle.png" alt="Red circle">
 		<img id="palm" src="images/palm.jpg" alt="Right palm">
 		<button class="button" id="btnStart">Start</button>
 		<span class="timer" id="counter"></span>
@@ -30,15 +30,11 @@
 <template name="todo">
 	<div id="todo">
 		
-			<input type="radio" name="gender" value="task_1"> Task 1<br>
-			<input type="radio" name="gender" value="task_2"> Task 2<br>
-			<input type="radio" name="gender" value="task_3"> Task 3<br>
+			<input class="taskChoose" type="radio" name="gender" value=1> Task 1<br>
+			<input class="taskChoose" type="radio" name="gender" value=2> Task 2<br>
+			<input class="taskChoose" type="radio" name="gender" value=3> Task 3<br>
 		
-		<ul>
-			<li>Choose the task</li>
-			<li>Put your hand to the initial position</li>
-			<li>Follow instractions</li>
-		</ul>
+		<p id="descr"></p>
 	</div>
 </template>
 
