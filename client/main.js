@@ -83,6 +83,15 @@ Template.control.helpers({
 	}
 });
 Template.trainer.events({
+	'click #btnRec' (event, template) {
+		var className = template.$("#inputData").val();
+		Meteor.call("copy", className, function(error){
+			if (error) {
+				console.log(error);
+			}
+		})
+	},
+	
 	'click #btnStart'(event, template) {
 		const target = event.target;
 		target.disabled = true;

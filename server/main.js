@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import {Tasks} from '../imports/api/collections.js';
 import {Train} from '../imports/api/collections.js';
+import {ChartData} from '../imports/api/collections.js';
 
 Meteor.startup(() => {
 	
@@ -8,7 +9,7 @@ Meteor.startup(() => {
     var Delimiter = SerialPort.parsers.Delimiter;
 
     port = null;
-    PORT = 'COM5'
+    PORT = 'COM8'
     // initially we are disconnected
     connect_timer = null;
     is_connected  = false
@@ -76,6 +77,42 @@ Meteor.startup(() => {
         connect_timer = setInterval(reconnect, 100);
     }
 
+	import brain from 'brain.js';
+	 var net = new brain.NeuralNetwork();
+	
+	 arr1 = Train.find({className: "palm"},{limit:30}).fetch();
+	 arr2 = Train.find({className: "fist"},{limit:30}).fetch();
+	 arr3 = Train.find({className: "garbage"},{limit:30}).fetch();
+	 res = [];
+	 for (var i = 0; i < 3; i++) {
+	 	for (var j = 0; j < 30; j++) {
+	 		var tmpArr = [];
+			if (i == 0) {
+				
+				for (var k = 0; k < arr1[j].sens_data.length; k++) {
+					tmpArr = tmpArr.concat(arr1[j].sens_data[k]);
+				}
+	 			res.push({input: tmpArr, output: {palm: 1}});
+	 		} 
+	 		else if (i == 1) {
+				for (var k = 0; k < arr2[j].sens_data.length; k++) {
+					tmpArr = tmpArr.concat(arr2[j].sens_data[k]);
+				}
+	 			res.push({input: tmpArr, output: {fist: 1}});
+	 			
+	 		}
+	 		else {
+				for (var k = 0; k < arr3[j].sens_data.length; k++) {
+					tmpArr = tmpArr.concat(arr3[j].sens_data[k]);
+				}
+	 			res.push({input: tmpArr, output: {garbage: 1}});
+	 			
+	 		}
+			
+	 	}
+	 }
+	 net.train(res);
+
     function onData(data)
     {   
         if (data.length != 30)
@@ -90,40 +127,29 @@ Meteor.startup(() => {
             y = data.readInt16LE(sens*6 + 2);
             z = data.readInt16LE(sens*6 + 4);
 
-            sens_data[sens][0] = x;
-            sens_data[sens][1] = y;
-            sens_data[sens][2] = z;
-        }
+            sens_data[sens][0] = x/16384.0;
+            sens_data[sens][1] = y/16384.0;
+            sens_data[sens][2] = z/16384.0;
+		}
+		
+		tmpArr2 = []
+		for (var k = 0; k < sens_data.length; k++) {
+			tmpArr2 = tmpArr2.concat(sens_data[k]);
+		}
+	 	
+		const output = net.run(tmpArr2);
+		console.log(output);
+		//ChartData.insert({time: Date.now(), sens_data: sens_data});
+		
+		
 
         
 
     }
-
-	// import brain from 'brain.js';
-	// var net = new brain.NeuralNetwork();
 	
-	// arr1 = Train.find({position: "handdown"},{limit:20}).fetch();
-	// arr2 = Train.find({position: "handup"},{limit:20}).fetch();
-	// arr3 = Train.find({position: "fingerbend"},{limit:20}).fetch();
-	// res = [];
-	// for (var i = 0; i < 3; i++) {
-	// 	for (var j = 0; j < 20; j++) {
-	// 		if (i == 0) {
-	// 			res.push({input: arr1[j].data, output: {handdown: 1}});
-	// 		} 
-	// 		else if (i == 1) {
-	// 			res.push({input: arr2[j].data, output: {handup: 1}});
-	// 		}
-	// 		else {
-	// 			res.push({input: arr3[j].data, output: {fingerbend: 1}});
-	// 		}
-			
-	// 	}
-	// }
-	//console.log(res);
- 
-	// net.train(res);
 	 
+	
+	 //
 	//Meteor.setInterval(function(){
 		//console.log(Date.now());
 		//Tasks.update({idd: 1},{$inc: {count: 1} })
@@ -132,5 +158,9 @@ Meteor.startup(() => {
 });
 
 Meteor.methods({
-	
+	copy(className){
+		var rec = ChartData.find({}).fetch();
+		rec = rec[rec.length-1];
+		Train.insert({className: className, sens_data: rec.sens_data });
+	} 
 });
