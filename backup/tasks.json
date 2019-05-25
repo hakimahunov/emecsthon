@@ -1,0 +1,84 @@
+{
+	"_id" : ObjectId("5ce1882d2ce1382bf8d9147b")
+},
+{
+	"_id" : ObjectId("5ce188352ce1382bf8d9147c"),
+	"completed" : true
+},
+{
+	"_id" : ObjectId("5ce1aad92ce1382bf8d9147e"),
+	"completed" : true
+},
+{
+	"_id" : ObjectId("5ce1ad1c2ce1382bf8d9147f"),
+	"completed" : true
+},
+{
+	"_id" : ObjectId("5ce1ae712ce1382bf8d91480"),
+	"completed" : true
+},
+{
+	"_id" : ObjectId("5ce1aeac2ce1382bf8d91481"),
+	"completed" : true
+},
+{
+	"_id" : ObjectId("5ce1b4082ce1382bf8d91482"),
+	"completed" : true
+},
+{
+	"_id" : ObjectId("5ce1d7362ce1382bf8d91483"),
+	"completed" : true
+},
+{
+	"_id" : ObjectId("5ce1d73c2ce1382bf8d91484")
+},
+{
+	"_id" : ObjectId("5ce1d73e2ce1382bf8d91485"),
+	"completed" : false
+},
+{
+	"_id" : ObjectId("5ce1d7402ce1382bf8d91486"),
+	"completed" : false
+},
+{
+	"_id" : ObjectId("5ce27898c6e5c3bc37cf180c"),
+	"completed" : false
+},
+{
+	"_id" : ObjectId("5ce2789bc6e5c3bc37cf180d"),
+	"completed" : false
+},
+{
+	"_id" : ObjectId("5ce857fc4cbde5b58c508af6"),
+	"fingers" : [
+		1,
+		3
+	],
+	"time" : 10
+},
+{
+	"_id" : ObjectId("5ce858d24cbde5b58c508af7")
+},
+{
+	"_id" : ObjectId("5ce863554cbde5b58c508af8"),
+	"completed" : false,
+	"fingers" : [
+		1,
+		3
+	],
+	"time" : 10
+},
+{
+	"_id" : ObjectId("5ce90a66e08b769f1f21382e"),
+	"completed" : false,
+	"fingers" : [
+		2,
+		5
+	],
+	"time" : 20
+},
+{
+	"_id" : ObjectId("5ce90ae5e08b769f1f21382f"),
+	"completed" : false,
+	"time" : 20
+},
