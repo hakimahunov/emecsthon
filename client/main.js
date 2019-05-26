@@ -1,6 +1,7 @@
 import { Template } from 'meteor/templating';
 import { ReactiveVar } from 'meteor/reactive-var';
 import {Tasks} from '../imports/api/collections.js';
+import {FFTRes} from '../imports/api/collections.js';
 import { Session } from 'meteor/session' 
 
 import './main.html';
@@ -13,14 +14,14 @@ Template.chart.helpers({
 	createChart: function () {
 		//setTimeout(function(){
 			// Gather data: 
-			var allTasks = 20,// (Tasks.find({idd:1}).fetch())[0].count,
-			incompleteTask = 13, //Tasks.find({completed: {$eq: false}}).count(),
+			var allTasks = Tasks.find({type:2}).count()
+			incompleteTask = Tasks.find({type:2,completed: false}).count()
 			tasksData = [{
 							y: incompleteTask,
-							name: "Incomplete"
+							name: "ToDo"
 						}, {
 							y: allTasks - incompleteTask,
-							name: "Complete"
+							name: "Completed"
 						}];
 			// Use Meteor.defer() to craete chart after DOM is ready:
 			Meteor.defer(function() {
@@ -102,8 +103,9 @@ Template.trainer.events({
 		}
 		
 		var task = (Tasks.find({patient:1, type: parseInt(Session.get("TaskType")), completed: false}).fetch())[0];
-		
+		console.log(task.type)
 		if (task.type == 2) {
+			setTimeout(function(){this.document.getElementById("result").innerHTML = 0;},10); 
 			var curState = "palm";
 			var ticks = 0;
 			Session.set("position","palm");
@@ -112,17 +114,17 @@ Template.trainer.events({
 					if (error) {
 						console.log(error);
 					} else {
+						console.log(res)
 						Session.set("position",res);
 					}
 				});
 				setTimeout(function(){
-					console.log(Session.get("position"));
 					if (curState != Session.get("position")) {
 						this.document.getElementById("result").innerHTML = ++ticks;
 						curState = Session.get("position");
 					}
 					this.document.getElementById("palm").src = "images/" + Session.get("position") + ".png";
-				},50);
+				},10);
 			},200);
 			 var countDown = task.time;
 			 var y = setInterval(function(){
@@ -130,8 +132,14 @@ Template.trainer.events({
 				countDown--;
 				if (countDown < 0) {
 					target.disabled = false;
+					Meteor.call("updateTasks", function(error){
+						if (error) {
+							console.log(error);
+						}
+					})
 					clearInterval(t);
 					clearInterval(y);
+					
 				}
 			 },1000);
 		} else {

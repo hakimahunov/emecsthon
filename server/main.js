@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import {Tasks} from '../imports/api/collections.js';
 import {Train} from '../imports/api/collections.js';
 import {ChartData} from '../imports/api/collections.js';
+import {FFTRes} from '../imports/api/collections.js';
 
 import brain from 'brain.js';
 var net = new brain.NeuralNetwork();
@@ -168,12 +169,14 @@ Meteor.methods({
 		Train.insert({className: className, sens_data: rec.sens_data });
 	},
 	checkPosition(taskType){
+	
 		tmpArr2 = []
 		for (var k = 0; k < sens_data.length; k++) {
 			tmpArr2 = tmpArr2.concat(sens_data[k]);
 		}
 	 	
 		const output = net.run(tmpArr2);
+		//console.log(output);
 		if (taskType == 2) {
 			if (output.fist > 0.80) {
 				return "fist"
@@ -182,5 +185,55 @@ Meteor.methods({
 			}
 		}
 		//console.log(output);
+	},
+	
+	fft()
+    {
+        var tmpArr = [];
+        data = ChartData.find({}, {sort: {time: -1}, limit: 100}).fetch();
+        for (var k = 0; k < 100; k++) {
+            tmpArr.push(data[k].sens_data);
+        }
+
+
+        abs_accels = [[],[],[],[],[]];
+        for (var i = 0; i < 5; i++)
+        {
+            for (var k = 0; k < 100; k++)
+            {
+                abs_accels[i].push(magn_accel(tmpArr[k][i]));
+            }
+        }
+        for (var i = 0; i < 5; i++)
+        {
+            for (var k = 0; k < 28; k++)
+            {
+                abs_accels[i].push(0);
+            }
+        }
+        avg_fft = [];
+        for (var i = 0; i < 64; i++)
+            avg_fft.push(0);
+
+        var fft = new FFT(128, 1000/50);
+        for (var i = 0; i < 5; i++)
+        {
+            fft.forward(abs_accels[i]);
+            var spectrum = fft.spectrum;
+            for (var k = 0; k < 64; k++)
+            {
+                avg_fft[k] += spectrum[k]/5;
+            }
+        }
+
+        FFTRes.insert({time: Date.now(), fft: avg_fft});
+    },
+	updateTasks(){
+		Tasks.update({type:2,completed:false},{$set:{completed:true}});
 	}
 });
+
+function magn_accel(data)
+{
+    return Math.sqrt(data[0]*data[0] + data[1]*data[1] + data[2]*data[2]);
+}
